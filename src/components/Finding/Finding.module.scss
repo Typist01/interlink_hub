@@ -1,0 +1,12 @@
+@use 'variables' as *;
+
+.finding{
+
+    background-color: darken($neutral-light,7);
+    padding: 7rem;
+    width: 40rem;
+    color: $blue-grey-dark;
+    border-radius: 1.2rem;
+    margin: 2rem;
+    cursor: pointer;
+}

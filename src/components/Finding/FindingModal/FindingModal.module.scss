@@ -1,0 +1,57 @@
+@use 'variables' as *;
+
+.modal-backdrop {
+    transition: opacity 0.23s ease-out;
+    opacity: 0; // Start with the modal hidden
+    pointer-events: none; // Prevents clicks when the modal is not visible
+    &.visible {
+        opacity: 1;
+        pointer-events: all; // Allows clicks when the modal is visible
+      }
+    
+    
+    position: fixed;        // Ensures the modal is positioned relative to the viewport
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;          // Uses Flexbox for centering
+    justify-content: center;// Centers horizontally
+    background-color: rgba(0, 0, 0, 0.5); // Semi-transparent backdrop
+    z-index: 1000;          // Ensures the modal is above other content
+    overflow-y: scroll;     // Allows scrolling for overflowing content
+
+  
+    .modal-container {
+        margin: 7vh 0;
+        transform: translateY(-20px); // Start above the final position
+        transition: transform 0.2s ease-out; // Transition for transform property
+    
+        &.visible {
+          transform: translateY(0px); // End at the final position
+        }
+            
+      position: relative;
+      width: 90vh;          // Sets the width of the modal
+      padding: 20px;        // Gives some spacing inside the modal
+      background-color: #fff; // Modal background
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); // Adds some shadow for depth
+      border-radius: 8px;   // Optionally rounds the corners
+      z-index: 1001;        // Ensures the modal content is above the backdrop
+      height: fit-content;
+    }
+    .modal-content{
+        color: $blue-grey-dark;
+        padding: 7vh;
+        display: flex;
+        flex-direction: column;
+        .truncate-description{
+            max-height: 100px; // Adjust as needed
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+          
+        }
+    }
+  }
+  
