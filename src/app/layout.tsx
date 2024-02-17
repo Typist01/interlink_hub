@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " min-h-[100vh] flex flex-col"}>
-        <Toaster />
+        <Toaster closeButton richColors />
         <div className="flex-1">
           <NavBar />
           {children}

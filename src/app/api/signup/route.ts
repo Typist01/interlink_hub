@@ -26,7 +26,9 @@ export async function POST(req: Request, res: Response) {
   });
 
   if (existingUser) {
-    return new Response("User already exists", { status: 422 });
+    return new Response("User already exists", {
+      status: 422,
+    });
   }
 
   const hashedPassword = await hash(password, 12);

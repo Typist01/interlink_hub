@@ -3,7 +3,6 @@
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import Success from "./Success";
 import { useRouter } from "next/navigation";
 
 interface pageProps {}
@@ -11,7 +10,6 @@ interface pageProps {}
 type Inputs = {
   email: string;
   password: string;
-  confirmPassword: string;
 };
 const Page: FC<pageProps> = ({}) => {
   const inputClasses = `bg-gray-100 focus:bg-blue-50 transition h-[4rem] text-gray-600 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-indigo-500 text-md`;
@@ -25,15 +23,10 @@ const Page: FC<pageProps> = ({}) => {
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    // ... proceed with form submission if passwords match
-    const { confirmPassword, ...payload } = data;
-    if (confirmPassword !== data.password) {
-      return;
-    }
     try {
-      const result = await fetch(`/api/signup`, {
+      const result = await fetch(`/api/login`, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
       });
       console.log("entered statement after fetch", result);
       if (result.status === 422) {
@@ -51,7 +44,7 @@ const Page: FC<pageProps> = ({}) => {
         );
       }
     } catch (e) {
-      toast.error("Problem creating an account: try again later");
+      toast.error("Could not log in, please try again later");
       console.log("error is ", e);
     }
   };
@@ -59,9 +52,6 @@ const Page: FC<pageProps> = ({}) => {
   const password = watch("password");
   const labelClasses = `
   block text-[2xl] font-medium text-gray-300 text-gray-100`;
-  if (result === "success") {
-    return <Success />;
-  }
 
   return (
     <div className="max-w-sm mx-auto mt-[10vh]">
@@ -98,31 +88,6 @@ const Page: FC<pageProps> = ({}) => {
             <span className="text-red-500">{errors.password.message}</span>
           )}
         </div>
-
-        <div>
-          <label htmlFor="confirmPassword" className={labelClasses}>
-            Confirm Password
-          </label>
-          <input
-            disabled={isSubmitting}
-            id="confirmPassword"
-            type="password"
-            {...register("confirmPassword", {
-              required: "required",
-              validate: {
-                confirmPassword: (value) =>
-                  value === password || "passwords must match",
-              },
-            })}
-            className={inputClasses}
-          />
-          {errors.confirmPassword?.message && (
-            <span className="text-red-500">
-              {errors.confirmPassword.message}
-            </span>
-          )}
-        </div>
-
         <div>
           <button
             type="submit"
@@ -150,7 +115,7 @@ const Page: FC<pageProps> = ({}) => {
                 ></path>
               </svg>
             )}
-            <span>Sign up</span>
+            <span>Log in</span>
           </button>
         </div>
       </form>

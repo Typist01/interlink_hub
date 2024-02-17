@@ -15,7 +15,9 @@ const NavBar: FC<NavBarProps> = ({}) => {
         <Button type="link" href="/signup">
           <span className="font-semibold">Sign Up</span>
         </Button>
-        <Button type="link">Log In</Button>
+        <Button type="link" href="/login">
+          Log In
+        </Button>
       </div>
     </div>
   );
