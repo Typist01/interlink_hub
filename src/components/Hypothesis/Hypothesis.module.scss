@@ -1,0 +1,16 @@
+@use 'variables' as *;
+
+.hypothesis{
+    background-color: darken($neutral-light,7);
+    padding: 7rem;
+    width: 40rem;
+    color: $blue-grey-dark;
+    border-radius: 1.2rem;
+    margin: 2rem;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    &:hover{
+        transition: outline-color 0.1s ease-in-out;
+        outline: 3PX SOLID rgba(195, 248, 255, 0.829);
+    }
+}

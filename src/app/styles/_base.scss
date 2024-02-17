@@ -1,0 +1,36 @@
+// src/app/styles/_base.scss
+
+// Set the base font size to 10px for easier calculations (62.5% of the default 16px)
+html {
+    font-size: 62.5%;
+  }
+  
+  // Base body styling
+  body {
+    font-size: 1.6rem; // sets the default font size to 16px
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+  }
+  
+  // Other base elements
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    font-weight: normal;
+  }
+  
+  // Reusable classes for typography
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-left {
+    text-align: left;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  // ... add any other base styles you need
+  
