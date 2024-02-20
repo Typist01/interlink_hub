@@ -9,14 +9,18 @@ type UserPoroviderProps = {
 };
 
 // Provider component
+export type UserModel = Omit<User, "password">;
 export const UserProvider = ({ children }: UserPoroviderProps) => {
-  const [currentUser, setCurrentUser] = useState<Omit<User, "password"> | null>(
-    null
-  );
+  const [currentUser, setCurrentUser] = useState<UserModel | null>(null);
 
   useEffect(() => {
     // Fetch user data when the component mounts
-    fetchUserData().then((data) => setCurrentUser(data));
+
+    fetchUserData().then((data) => {
+      if (data) {
+        setCurrentUser(data);
+      }
+    });
   }, []);
 
   return (
@@ -29,11 +33,9 @@ export const UserProvider = ({ children }: UserPoroviderProps) => {
 // Fetch user data function
 async function fetchUserData() {
   // Implementation from the previous step
-  fetch("/api/me", { method: "GET" })
-    .then((res) => res.json())
-    .then((data) => {
-      return data;
-    });
+  const response = await fetch("/api/me", { method: "GET" });
+  const data = await response.json();
+  return data;
 }
 
 // Custom hook to use the user context
