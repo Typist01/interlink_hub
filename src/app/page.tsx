@@ -4,9 +4,9 @@ import { FC } from "react";
 
 interface pageProps {}
 
-const page: FC<pageProps> = ({}) => {
+const Page: FC<pageProps> = ({}) => {
   return (
-    <div>
+    <main data-testid="home-page">
       <div className=" h-[70vh] p-[3vh] 2xl:p-[7vh] flex flex-col relative">
         <Image
           className="z-[-1]"
@@ -61,8 +61,8 @@ const page: FC<pageProps> = ({}) => {
         {/* <h1 className="text-[2rem]">Don't know where to start?</h1>
         <h1 className="text-[3rem]">Ask the whole world</h1> */}
       </div>
-    </div>
+    </main>
   );
 };
 
-export default page;
+export { Page };

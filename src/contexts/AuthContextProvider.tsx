@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Create a context
-const UserContext = createContext<{}>(null);
+const UserContext = createContext<{}>({});
 
 type UserPoroviderProps = {
   children: React.ReactNode;
