@@ -37,11 +37,16 @@ export async function POST(req: Request, res: Response) {
   if (!isValid) {
     return new Response("Invalid credentials", { status: 401 });
   }
-
-  //   Generate JWT
+  // Generate JWT
   const token = jwt.sign({ email: user.email, id: user.id }, getJwtSecret(), {
     expiresIn: "1h",
   });
 
-  return new Response(token, { status: 200 });
+  return new Response(token, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Set-Cookie": `token=${token}; Path=/; HttpOnly; Secure`,
+    },
+  });
 }

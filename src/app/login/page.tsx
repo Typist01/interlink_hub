@@ -32,7 +32,7 @@ const Page: FC<pageProps> = ({}) => {
       if (result.status === 422) {
         toast.error("An account with this email already exists");
       }
-      if (result.status === 201) {
+      if (result.status === 200) {
         setResult("success");
         setTimeout(() => {
           router.push("/");
