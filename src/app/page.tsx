@@ -65,4 +65,4 @@ const Page: FC<pageProps> = ({}) => {
   );
 };
 
-export { Page };
+export default Page;
