@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/contexts/AuthContextProvider";
 
 interface pageProps {}
 
@@ -13,12 +14,12 @@ type Inputs = {
 };
 const Page: FC<pageProps> = ({}) => {
   const inputClasses = `bg-gray-100 focus:bg-blue-50 transition h-[4rem] text-gray-600 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-indigo-500 text-md`;
-  const [result, setResult] = useState<"success" | "error" | null>(null);
+  const [setResult] = useState<"success" | "error" | null>(null);
+  const { refreshUser, user } = useUser();
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors, isLoading, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
   const router = useRouter();
@@ -28,16 +29,21 @@ const Page: FC<pageProps> = ({}) => {
         method: "POST",
         body: JSON.stringify(data),
       });
-      console.log("entered statement after fetch", result);
       if (result.status === 422) {
-        toast.error("An account with this email already exists");
+        toast.error("Please fill out all required fields");
       }
       if (result.status === 200) {
         setResult("success");
+        refreshUser();
         setTimeout(() => {
           router.push("/");
         }, 1000);
+        return;
       } else {
+        if (result.status === 401) {
+          toast.error("Invalid email or password");
+          return;
+        }
         throw new Error(
           "could not create account: server responded with " +
             JSON.stringify(result)
@@ -45,13 +51,15 @@ const Page: FC<pageProps> = ({}) => {
       }
     } catch (e) {
       toast.error("Could not log in, please try again later");
-      console.log("error is ", e);
     }
   };
 
-  const password = watch("password");
   const labelClasses = `
   block text-[2xl] font-medium text-gray-300 text-gray-100`;
+
+  if (user !== null) {
+    return <div>You&apos;re logegd in</div>;
+  }
 
   return (
     <div className="max-w-sm mx-auto mt-[10vh]">
