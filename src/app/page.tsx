@@ -9,18 +9,20 @@ const Page: FC<pageProps> = ({}) => {
     <main data-testid="home-page">
       <div className=" h-[70vh] p-[3vh] 2xl:p-[7vh] flex flex-col relative">
         <Image
-          className="z-[-1]"
+          className="opacity-[50%]"
           alt="image of a tree under a starry night sky"
-          src="/images/share-findings.jpg"
+          src="/images/sparkles-crimson.webp"
           fill={true}
+          style={{ objectFit: "cover" }}
         />
-        <div className="mt-20 space-y-5">
+
+        <div className="mt-20 space-y-5 z-10">
           <h1 className="font-thin text-[4rem]">Share your findings</h1>
           <h1 className="font-light text-3xl ml-10">
-            with <span className="font-semibold">everyone</span>
+            with <span className="font-semibold">the world</span>
           </h1>
         </div>
-        <div className="flex-1 flex justify-center">
+        <div className="flex-1 flex justify-center z-10">
           <Link
             href={"/global"}
             className="p-5 rounded-lg self-end hover:bg-teal-400 bg-teal-500 transition"
@@ -31,7 +33,7 @@ const Page: FC<pageProps> = ({}) => {
       </div>
 
       <div className="m-[15vh]">
-        <h1 className="text-[2rem]">Tell the world what </h1>
+        <h1 className="text-[2rem]">Tell everyone what </h1>
 
         <h1 className="text-[4rem]">{"you've found"}</h1>
         <div className="mx-auto text-center flex items-center justify-center">
@@ -54,9 +56,9 @@ const Page: FC<pageProps> = ({}) => {
           </svg>
         </div>
         <p className="mt-[10vh] text-end">
-          A place to <strong>store your ideas</strong>
+          A place to <strong>find new ideas</strong>
           <br></br>
-          <em>and explore others</em>
+          <em>and explore</em>
         </p>
         {/* <h1 className="text-[2rem]">Don't know where to start?</h1>
         <h1 className="text-[3rem]">Ask the whole world</h1> */}
