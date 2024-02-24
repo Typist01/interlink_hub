@@ -29,7 +29,10 @@ export async function POST(req: Request, res: Response) {
   });
 
   if (!user) {
-    return new Response("User not found", { status: 404 });
+    return new Response("invalid email", {
+      status: 401,
+      statusText: "invalid email",
+    });
   }
 
   const isValid = await compare(password, user.password);
