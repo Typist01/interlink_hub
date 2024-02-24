@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/NavBar/NavBar";
 import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
+import { UserProvider } from "@/contexts/AuthContextProvider";
+import { NextUIProvider } from "@nextui-org/react";
+import { Providers } from "./Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " min-h-[100vh] flex flex-col"}>
-        <Toaster closeButton richColors />
-        <div className="flex-1">
-          <NavBar />
-          {children}
-        </div>
-        <Footer />
+        <Providers>
+          <div className="flex-1">
+            <NavBar />
+            {children}
+          </div>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
