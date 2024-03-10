@@ -6,7 +6,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export function POST(req: NextApiRequest, res: NextApiResponse) {
   // Set the token cookie to a past date, effectively expiring it
-  console.log("hello from /api/logout");
 
   return new Response("Logged out", {
     status: 200,
