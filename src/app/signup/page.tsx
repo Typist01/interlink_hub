@@ -38,6 +38,7 @@ const Page: FC<pageProps> = ({}) => {
       console.log("entered statement after fetch", result);
       if (result.status === 422) {
         toast.error("An account with this email already exists");
+        return;
       }
       if (result.status === 201) {
         setResult("success");
