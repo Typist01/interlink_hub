@@ -34,7 +34,7 @@
       position: relative;
       width: 90vh;          // Sets the width of the modal
       padding: 20px;        // Gives some spacing inside the modal
-      background-color: #fff; // Modal background
+      background-color: darken($neutral-light, 2); // Modal background
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); // Adds some shadow for depth
       border-radius: 8px;   // Optionally rounds the corners
       z-index: 1001;        // Ensures the modal content is above the backdrop

@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import styles from "./FindingModal.module.scss";
 import useOutsideClicker from "@/hooks/useOutisdeClicker";
-import { dummyData } from "./dummyData";
 import Button from "@/components/common/Button/Button";
 import { getFiveResponses } from "@/components/Hypothesis/HypothesisModal/Responses/sampleResponses";
 import Responses from "@/components/Hypothesis/HypothesisModal/Responses/Responses";
@@ -9,17 +8,19 @@ import Responses from "@/components/Hypothesis/HypothesisModal/Responses/Respons
 interface FindingModalProps {
   onClose: () => void;
   isVisible: boolean;
+  finding: Finding;
 }
 
-const FindingModal: FC<FindingModalProps> = ({ onClose, isVisible }) => {
+const FindingModal: FC<FindingModalProps> = ({
+  onClose,
+  isVisible,
+  finding,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [truncateDescription, setTruncateDescription] = useState<boolean>();
+  const [truncateDescription, setTruncateDescription] = useState<boolean>(
+    finding.description.length > 100
+  );
   const isLoggedIn = true;
-
-  useEffect(() => {
-    const iniitalTruncateDescription = dummyData.description.length > 100;
-    setTruncateDescription(iniitalTruncateDescription);
-  }, []);
 
   useOutsideClicker(modalRef, onClose);
 
@@ -46,14 +47,14 @@ const FindingModal: FC<FindingModalProps> = ({ onClose, isVisible }) => {
         `}
         >
           <div className={`${styles["modal-content"]}`}>
-            <h1 className="font-bold">{dummyData.title}</h1>
+            <h1 className="font-bold">{finding.hypothesis.title}</h1>
             <div className="flex-grow">
               <p
                 className={`mt-[3vh] font-medium ${
                   truncateDescription ? styles[`truncate-description`] : ""
                 }`}
               >
-                {dummyData.description}
+                {finding.description}
               </p>
               {
                 <button

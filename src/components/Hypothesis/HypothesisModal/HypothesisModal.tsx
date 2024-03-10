@@ -10,9 +10,14 @@ import { getFiveResponses } from "./Responses/sampleResponses";
 interface HypothesisModalProps {
   onClose: () => void;
   isVisible: boolean;
+  hypothesis?: Hypothesis;
 }
 
-const HypothesisModal: FC<HypothesisModalProps> = ({ onClose, isVisible }) => {
+const HypothesisModal: FC<HypothesisModalProps> = ({
+  onClose,
+  isVisible,
+  hypothesis,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [truncateDescription, setTruncateDescription] = useState<boolean>();
   const isLoggedIn = true;
@@ -47,14 +52,14 @@ const HypothesisModal: FC<HypothesisModalProps> = ({ onClose, isVisible }) => {
         `}
         >
           <div className={`${styles["modal-content"]}`}>
-            <h1 className="font-bold">{dummyData.title}</h1>
+            <h1 className="font-bold">{hypothesis?.title}</h1>
             <div className="flex-grow">
               <p
                 className={`mt-[3vh] font-medium ${
                   truncateDescription ? styles[`truncate-description`] : ""
                 }`}
               >
-                {dummyData.description}
+                {hypothesis?.description}
               </p>
               {
                 <button
