@@ -1,10 +1,12 @@
 import { FC } from "react";
 
-interface SuccessProps {}
+interface SuccessProps {
+  message?: string;
+}
 
-const Success: FC<SuccessProps> = ({}) => {
+const Success: FC<SuccessProps> = ({ message }) => {
   return (
-    <div className="max-w-sm mx-auto mt-[10vh] flex justify-center items-center flex flex-col space-y-2">
+    <div className="h-screen mx-auto flex justify-center items-center flex flex-col space-y-2">
       <svg
         className="w-16 h-16 text-green-500 opacity-0"
         style={{
@@ -34,7 +36,7 @@ const Success: FC<SuccessProps> = ({}) => {
               }
             `}
       </style>
-      <span className="text-[2rem]">Successfully signed up</span>
+      <span className="text-[2rem]">{message ?? "Successfully signed up"}</span>
     </div>
   );
 };
