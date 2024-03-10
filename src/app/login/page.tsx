@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/contexts/AuthContextProvider";
+import { useUserContext } from "@/contexts/AuthContextProvider";
 
 interface pageProps {}
 
@@ -14,8 +14,7 @@ type Inputs = {
 };
 const Page: FC<pageProps> = ({}) => {
   const inputClasses = `bg-gray-100 focus:bg-blue-50 transition h-[4rem] text-gray-600 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-indigo-500 text-md`;
-  const [setResult] = useState<"success" | "error" | null>(null);
-  const { refreshUser, user } = useUser();
+  const { refreshUser, user, logout } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -33,7 +32,6 @@ const Page: FC<pageProps> = ({}) => {
         toast.error("Please fill out all required fields");
       }
       if (result.status === 200) {
-        setResult("success");
         refreshUser();
         setTimeout(() => {
           router.push("/");
@@ -57,8 +55,18 @@ const Page: FC<pageProps> = ({}) => {
   const labelClasses = `
   block text-[2xl] font-medium text-gray-300 text-gray-100`;
 
-  if (user !== null) {
-    return <div>You&apos;re logegd in</div>;
+  if (user !== null && user !== undefined) {
+    return (
+      <div className="h-screen flex flex-col justify-center items-center text-[2rem]">
+        <h3>You&apos;re logged in</h3>
+        <button
+          onClick={logout}
+          className="text-[1.5rem] text-teal-400 p-1 hover:text-teal-300"
+        >
+          Log out
+        </button>
+      </div>
+    );
   }
 
   return (
