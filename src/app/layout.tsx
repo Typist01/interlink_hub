@@ -24,9 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + " min-h-[100vh] flex flex-col"}>
         <Providers>
-          <div className="flex-1">
+          <div className="">
             <NavBar />
-            {children}
+            <div className="min-h-[calc(100vh-220px)]">{children}</div>
           </div>
           <Footer />
         </Providers>
