@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Success from "./Success";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/contexts/AuthContextProvider";
 
 interface pageProps {}
 
@@ -20,8 +21,9 @@ const Page: FC<pageProps> = ({}) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isLoading, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>();
+  const { refreshUser } = useUserContext();
 
   const router = useRouter();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -38,11 +40,13 @@ const Page: FC<pageProps> = ({}) => {
       console.log("entered statement after fetch", result);
       if (result.status === 422) {
         toast.error("An account with this email already exists");
+        return;
       }
       if (result.status === 201) {
         setResult("success");
         setTimeout(() => {
           router.push("/");
+          refreshUser();
         }, 1000);
       } else {
         throw new Error(
@@ -64,8 +68,8 @@ const Page: FC<pageProps> = ({}) => {
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-[10vh]">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
+    <div className="max-w-sm mx-auto mt-[15vh]">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
         {/* TODO: fix isLoading to turn off form handling during api call */}
         <div>
           <label htmlFor="email" className={labelClasses}>

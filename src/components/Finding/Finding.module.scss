@@ -2,11 +2,13 @@
 
 .finding{
 
-    background-color: darken($neutral-light,7);
-    padding: 7rem;
+    background-color: lighten($blue-grey,60);
+    padding: 5rem;
     width: 40rem;
     color: $blue-grey-dark;
     border-radius: 1.2rem;
     margin: 2rem;
     cursor: pointer;
+    height: 20rem;
+    max-height: 20rem;
 }

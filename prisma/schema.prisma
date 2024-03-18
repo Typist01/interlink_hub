@@ -22,41 +22,44 @@ model User {
   Hypothesis Hypothesis[]
   Finding    Finding[]
   Response   Response[]
+  verified   Boolean      @default(false)
 }
 
 model Hypothesis {
-  id          String    @id @default(uuid())
-  userId      String
-  title       String
-  description String
-  created     DateTime  @default(now())
-  updated     DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id])
-  findings    Finding[]
+  id            String    @id @default(uuid())
+  userId        String
+  title         String
+  description   String
+  created       DateTime  @default(now())
+  updated       DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id])
+  findings      Finding[]
+  likes         Int       @default(0)
+  isPlaceholder Boolean   @default(false)
 }
 
 model Finding {
-  id                 String     @id @default(uuid())
-  userId             String
-  hypothesisId       String
-  description        String
-  created            DateTime   @default(now())
-  updated            DateTime   @updatedAt
-  user               User       @relation(fields: [userId], references: [id])
-  hypothesis         Hypothesis @relation(fields: [hypothesisId], references: [id])
-  externalHypothesis Boolean?
+  id             String      @id @default(uuid())
+  userId         String
+  hypothesisId   String?
+  description    String
+  created        DateTime    @default(now())
+  updated        DateTime    @updatedAt
+  user           User        @relation(fields: [userId], references: [id])
+  hypothesis     Hypothesis? @relation(fields: [hypothesisId], references: [id])
+  hypothesisText String?
 }
 
 model Response {
-  id       String   @id @default(uuid())
-  content  String
-  created  DateTime @default(now())
-  updated  DateTime @updatedAt
-  userId   String
-  user     User     @relation(fields: [userId], references: [id])
-  postId   String // Generic ID that can reference either Hypothesis or Finding
-  postType String // Type of the post (e.g., 'Hypothesis' or 'Finding')
-  votes    Int
-  userVote Int
-  // Polymorphic relation not directly supported by Prisma, handle in application logic
+  id           String   @id @default(uuid())
+  content      String
+  created      DateTime @default(now())
+  updated      DateTime @updatedAt
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  votes        Int      @default(0)
+  responseToId String?
+  postId       String
+  postType     String
+  hypothesisId String?
 }

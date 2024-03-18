@@ -8,8 +8,8 @@ function generateRandomUser(): User {
     picture: `https://example.com/picture${
       Math.floor(Math.random() * 10) + 1
     }.jpg`,
-    created: new Date(),
-    updated: Math.random() < 0.5 ? new Date() : undefined,
+    created: new Date().toString(),
+    updated: new Date().toString(),
   };
 }
 
@@ -17,7 +17,7 @@ export function generateHypothesisResponse(): HypothesisResponse {
   const user = generateRandomUser();
   return {
     id: uuidv4(),
-    hypothesisId: Math.random() < 0.5 ? uuidv4() : undefined,
+    hypothesisId: uuidv4(),
     response: `This is a sample response ${Math.floor(Math.random() * 100)}`,
     created: new Date(),
     updated: new Date(),
@@ -48,11 +48,12 @@ export function generateDummyHypothesis(): Hypothesis {
   return {
     id: uuidv4(),
     userId: user.id,
-    title: `Hypothesis Title ${Math.floor(Math.random() * 100)}`,
+    title: `Hypothesis Title XX}`,
     description: `This is a sample hypothesis description.`,
-    created: new Date(),
-    updated: new Date(),
+    created: new Date().toDateString(),
+    updated: new Date().toDateString(),
     user: user,
+    likes: 3,
     responses: Array.from({ length: 3 }, () => generateHypothesisResponse()), // Generating 3 random responses
   };
 }
@@ -67,8 +68,8 @@ export function generateDummyFinding(): Finding {
     userId: user.id,
     hypothesis: hypothesis,
     description: "This is an example finding description.",
-    created: new Date(),
-    updated: new Date(),
+    created: new Date().toString(),
+    updated: new Date().toString(),
     user: user,
     responses: [], // Assuming responses are empty initially, can be populated as needed
     externalHypothesis: Math.random() > 0.5, // Randomly decide if it's an external hypothesis

@@ -1,9 +1,8 @@
 // pages/api/auth/login.ts
 
-import type { NextApiRequest, NextApiResponse } from "next";
 import { compare } from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { prisma } from "../../../lib/prisma"; // Adjust the import path according to your project structure
+import { SignJWT } from "jose";
 
 const getJwtSecret = () => {
   const secret = process.env.JWT_SECRET;
@@ -29,7 +28,10 @@ export async function POST(req: Request, res: Response) {
   });
 
   if (!user) {
-    return new Response("User not found", { status: 404 });
+    return new Response("invalid email", {
+      status: 401,
+      statusText: "invalid email",
+    });
   }
 
   const isValid = await compare(password, user.password);
@@ -38,9 +40,11 @@ export async function POST(req: Request, res: Response) {
     return new Response("Invalid credentials", { status: 401 });
   }
   // Generate JWT
-  const token = jwt.sign({ email: user.email, id: user.id }, getJwtSecret(), {
-    expiresIn: "1h",
-  });
+  const token = await new SignJWT({ email: user.email, id: user.id })
+    .setExpirationTime("2h")
+    .setProtectedHeader({ alg: "HS256" })
+    .setSubject(user.id)
+    .sign(new TextEncoder().encode(getJwtSecret()));
 
   return new Response(token, {
     status: 200,
