@@ -7,5 +7,11 @@ docker build . --tag 'interlink_hub_docker_image'
 # Note: Corrected the port mapping to -p host_port:container_port
 docker run --detach -p 5433:5432 interlink_hub_docker_image
 
-# Step 3: Run the npm development server
+# Run migrations
+env-cmd -f .env.local npx prisma migrate dev
+
+# Run seeders
+env-cmd -f .env.local npx prisma migrate seed
+
+# Run the npm development server
 npm run dev
