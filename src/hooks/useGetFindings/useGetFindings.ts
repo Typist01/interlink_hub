@@ -8,9 +8,9 @@ export const useGetFindings = () => {
       if (response.status === 200) {
         const result = await response.json();
         setList?.(result.findings);
-        return result.findings;
+        return { data: result.findings, err: null };
       } else {
-        toast.error("We are having a problem, please try again later");
+        return { data: null, err: "fetch-error" };
       }
     },
     []

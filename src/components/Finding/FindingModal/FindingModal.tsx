@@ -4,6 +4,7 @@ import useOutsideClicker from "@/hooks/useOutisdeClicker";
 import Button from "@/components/common/Button/Button";
 import { getFiveResponses } from "@/components/Hypothesis/HypothesisModal/Responses/sampleResponses";
 import Responses from "@/components/Hypothesis/HypothesisModal/Responses/Responses";
+import ResponsesUI from "@/components/Hypothesis/HypothesisModal/ResponsesUI";
 
 interface FindingModalProps {
   onClose: () => void;
@@ -20,17 +21,8 @@ const FindingModal: FC<FindingModalProps> = ({
   const [truncateDescription, setTruncateDescription] = useState<boolean>(
     finding.description.length > 100
   );
-  const isLoggedIn = true;
 
   useOutsideClicker(modalRef, onClose);
-
-  const [responses, setResponses] = useState<FindingResponse[]>([]);
-
-  useEffect(() => {
-    const responses = getFiveResponses();
-    setResponses(responses);
-  }, []);
-
   return (
     <>
       <div
@@ -67,17 +59,11 @@ const FindingModal: FC<FindingModalProps> = ({
                 </button>
               }
 
-              <div className="my-[7vh]">
-                <Responses responses={responses} />
-                {isLoggedIn && (
-                  <div className="mt-[3vh]">
-                    <h4>Respond</h4>
-                    <div>
-                      <textarea className="p-2 border border-gray-300 w-[30rem] rounded-lg mt-2"></textarea>
-                    </div>
-                    <Button className=" bg-gray-200 p-3">Submit</Button>
-                  </div>
-                )}
+              <div className="mt-[5vh] mb-[2vh]">
+                {/* <Responses responses={responses} /> */}
+                <div className="mt-[5vh] mb-[2vh]">
+                  <ResponsesUI id={finding.id} postType={"finding"} />
+                </div>
               </div>
             </div>
             <div>

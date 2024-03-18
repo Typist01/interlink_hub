@@ -17,10 +17,17 @@ const Page: FC<PageProps> = ({}) => {
   const { getHypothesis } = useGetHypothesis();
   const { getFindings } = useGetFindings();
   const { user } = useUserContext();
+  const [error, setError] = useState<undefined | "fetch-error">();
 
   const getItems = useCallback(async () => {
-    const hypotheses = await getHypothesis();
-    const findings = await getFindings();
+    const { data: hypotheses, err: hypothesisErr } = await getHypothesis();
+    const { data: findings, err: findingsErr } = await getFindings();
+
+    if (hypothesisErr || findingsErr) {
+      setError("fetch-error");
+      return;
+    }
+    setError(undefined);
 
     const hypohtesisList: Item[] = hypotheses.map((item: Hypothesis) => ({
       ...item,
@@ -67,7 +74,12 @@ const Page: FC<PageProps> = ({}) => {
       )}
 
       <div className="flex flex-wrap justify-center">
-        {items.length === 0 && <h1>Oh, nothing to see here... </h1>}
+        {error && (
+          <div className="p-5 bg-red-400 mt-[5vh]">
+            Oh, something went wrong... try refreshing the page.
+          </div>
+        )}
+        {!error && items.length === 0 && <h1>Oh, nothing to see here... </h1>}
         {items.map((item) => (
           <>
             {item.type === "hypothesis" && (

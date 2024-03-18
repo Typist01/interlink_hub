@@ -2,15 +2,14 @@ import { FC, useEffect, useRef, useState } from "react";
 import styles from "./HypothesisModal.module.scss";
 import useOutsideClicker from "@/hooks/useOutisdeClicker";
 import { dummyData } from "./dummyData";
-import { truncate } from "fs";
-import Responses from "./Responses/Responses";
 import Button from "@/components/common/Button/Button";
 import { getFiveResponses } from "./Responses/sampleResponses";
+import ResponsesUI from "./ResponsesUI";
 
 interface HypothesisModalProps {
   onClose: () => void;
   isVisible: boolean;
-  hypothesis?: Hypothesis;
+  hypothesis: Hypothesis;
 }
 
 const HypothesisModal: FC<HypothesisModalProps> = ({
@@ -19,23 +18,11 @@ const HypothesisModal: FC<HypothesisModalProps> = ({
   hypothesis,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [truncateDescription, setTruncateDescription] = useState<boolean>();
-  const isLoggedIn = true;
-
-  useEffect(() => {
-    const iniitalTruncateDescription = dummyData.description.length > 100;
-    setTruncateDescription(iniitalTruncateDescription);
-  }, []);
+  const [truncateDescription, setTruncateDescription] = useState<boolean>(
+    dummyData.description.length > 100
+  );
 
   useOutsideClicker(modalRef, onClose);
-
-  const [responses, setResponses] = useState<HypothesisResponse[]>([]);
-
-  useEffect(() => {
-    const responses = getFiveResponses;
-    setResponses(responses);
-  }, []);
-
   return (
     <>
       <div
@@ -72,17 +59,8 @@ const HypothesisModal: FC<HypothesisModalProps> = ({
                 </button>
               }
 
-              <div className="my-[7vh]">
-                <Responses responses={responses} />
-                {isLoggedIn && (
-                  <div className="mt-[3vh]">
-                    <h4>Respond</h4>
-                    <div>
-                      <textarea className="p-2 border border-gray-300 w-[30rem] rounded-lg mt-2"></textarea>
-                    </div>
-                    <Button className=" bg-gray-200 p-3">Submit</Button>
-                  </div>
-                )}
+              <div className="mt-[5vh] mb-[2vh]">
+                <ResponsesUI id={hypothesis.id} postType={"hypothesis"} />
               </div>
             </div>
             <div>

@@ -19,7 +19,7 @@
     justify-content: center;// Centers horizontally
     background-color: rgba(0, 0, 0, 0.5); // Semi-transparent backdrop
     z-index: 1000;          // Ensures the modal is above other content
-    overflow-y: scroll;     // Allows scrolling for overflowing content
+    overflow-y: hidden;     // Allows scrolling for overflowing content
 
   
     .modal-container {
@@ -33,16 +33,18 @@
             
       position: relative;
       width: 90vh;          // Sets the width of the modal
-      padding: 20px;        // Gives some spacing inside the modal
-      background-color: lighten($blue-grey,60);; // Modal background
+      background-color: lighten($blue-grey, 60); // Modal background
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); // Adds some shadow for depth
       border-radius: 8px;   // Optionally rounds the corners
       z-index: 1001;        // Ensures the modal content is above the backdrop
       height: fit-content;
     }
     .modal-content{
+      height: 70vh;
+      overflow-y: scroll;
         color: $blue-grey-dark;
-        padding: 7vh;
+        padding: 6.5vh;
+        padding-bottom: 3vh;
         display: flex;
         flex-direction: column;
         .truncate-description{

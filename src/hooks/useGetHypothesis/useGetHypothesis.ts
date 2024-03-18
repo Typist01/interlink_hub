@@ -8,9 +8,9 @@ export const useGetHypothesis = () => {
       if (response.status === 200) {
         const result = await response.json();
         setList?.(result.hypotheses);
-        return result.hypotheses;
+        return { data: result.hypotheses, err: null };
       } else {
-        toast.error("We are having a problem, please try again later");
+        return { findings: null, err: "fetch-error" };
       }
     },
     []
