@@ -1,6 +1,5 @@
 // pages/api/auth/signup.ts
 
-import { hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { SignJWT, jwtVerify } from "jose";

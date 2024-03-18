@@ -42,8 +42,11 @@ export async function POST(req: Request, res: Response) {
     },
   });
 
-  // Generate JWTd
-  const token = await new SignJWT({ id: createdUser.id, email: email })
+  // Generate JWT for verification
+  const verificationToken = await new SignJWT({
+    id: createdUser.id,
+    email: email,
+  })
     .setExpirationTime("2h")
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(createdUser.id)
@@ -55,10 +58,21 @@ export async function POST(req: Request, res: Response) {
     from: "onboarding@resend.dev",
     to: "travellingtypist1@gmail.com",
     subject: "Hello World",
-    react: <Email token={token} />,
+    react: <Email token={verificationToken} />,
   });
 
-  // TODO: send an email with token
+  // Login token
+  const token = await new SignJWT({ id: createdUser.id, email: email })
+    .setExpirationTime("2h")
+    .setProtectedHeader({ alg: "HS256" })
+    .setSubject(createdUser.id)
+    .sign(new TextEncoder().encode(getJwtSecret()));
 
-  return new Response("User created", { status: 201 });
+  return new Response("User created", {
+    status: 201,
+    headers: {
+      "Content-Type": "application/json",
+      "Set-Cookie": `token=${token}; Path=/; HttpOnly; Secure`,
+    },
+  });
 }
