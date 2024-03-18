@@ -11,7 +11,7 @@ const NavBar: FC<NavBarProps> = ({}) => {
   const { user } = useUserContext();
   return (
     <>
-      <div className="relative bg-teal-100 text-gray-900 p-8 px-[7vh] 2xl:px-[5vh] flex justify-between items-center">
+      <div className="h-[60px] relative bg-teal-100 text-gray-900 px-[7vh] 2xl:px-[5vh] flex justify-between items-center">
         <Link href="/" className="text-4xl font-bold text-gray-800 text-center">
           Interlink Hub
         </Link>

@@ -22,13 +22,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + " min-h-[100vh] flex flex-col"}>
+      <body className={inter.className + "flex flex-col"}>
         <Providers>
-          <div className="">
-            <NavBar />
-            <div className="min-h-[calc(100vh-220px)]">{children}</div>
+          <NavBar />
+          <div className="overflow-y-auto h-full h-[calc(100vh-60px)]">
+            <div className="">{children}</div>
+            <div className="h-[5vh]">
+              <Footer />
+            </div>
           </div>
-          <Footer />
         </Providers>
       </body>
     </html>
