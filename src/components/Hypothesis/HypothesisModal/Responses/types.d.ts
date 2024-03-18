@@ -46,3 +46,22 @@ type Finding = {
 type Item = (Hypothesis | Finding) & {
   type: "hypothesis" | "finding";
 };
+
+type ResponsePost = {
+  postId: string;
+  content: string;
+  postType: "hypothesis" | "finding"; // TODO: send this from parent component
+  responseToId: string;
+};
+type PostResponse = {
+  id: string;
+  created: string;
+  updated?: string;
+  userId: string;
+  user: User;
+  responseToId?: string;
+  postType?: "hypothesis" | "finding";
+  content: string;
+  votes: number;
+  postId: string;
+};

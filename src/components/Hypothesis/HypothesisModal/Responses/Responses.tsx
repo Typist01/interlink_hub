@@ -2,22 +2,20 @@
 
 import { FC } from "react";
 import Response from "./Response";
-import { generateHypothesisResponse } from "./sampleResponses";
 
 interface ResponsesProps {
-  responses: HypothesisResponse[];
+  responses: PostResponse[];
 }
 
 const Responses: FC<ResponsesProps> = ({ responses }) => {
   return (
     <div>
-      <h3 className="font-semibold">Responses</h3>
-      <div className="space-y-2">
-        {responses.length === 0
-          ? "None"
-          : responses.map((response) => (
-              <Response key={response.id} response={response} />
-            ))}
+      <h3 className="font-normal text-gray-600">Responses</h3>
+      <div className="space-y-3 mt-3">
+        {responses.length > 0 &&
+          responses.map((response, i) => (
+            <Response key={response.id} response={response} />
+          ))}
       </div>
     </div>
   );

@@ -2,13 +2,13 @@
 import { FC } from "react";
 
 interface ResponseProps {
-  response: HypothesisResponse;
+  response: PostResponse;
 }
 
 const Response: FC<ResponseProps> = ({ response }) => {
   return (
     <div className="py-6 px-8 bg-teal-200 space-y-2">
-      <p>{response.response}</p>
+      <p>{response.content}</p>
       <Footer response={response} />
     </div>
   );
@@ -24,7 +24,7 @@ const Footer = ({ response }: ResponseProps) => {
       </div>
       {/* timestamp */}
       <span className="text-[1.2rem] ">
-        {response.created.toLocaleDateString()}
+        {new Date(response.created).toLocaleDateString()}
       </span>
     </div>
   );
