@@ -26,17 +26,16 @@ model User {
 }
 
 model Hypothesis {
-  id            String     @id @default(uuid())
+  id            String    @id @default(uuid())
   userId        String
   title         String
   description   String
-  created       DateTime   @default(now())
-  updated       DateTime   @updatedAt
-  user          User       @relation(fields: [userId], references: [id])
+  created       DateTime  @default(now())
+  updated       DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id])
   findings      Finding[]
-  likes         Int        @default(0)
-  Response      Response[] @relation(map: "responses")
-  isPlaceholder Boolean    @default(false)
+  likes         Int       @default(0)
+  isPlaceholder Boolean   @default(false)
 }
 
 model Finding {
@@ -49,20 +48,18 @@ model Finding {
   user           User        @relation(fields: [userId], references: [id])
   hypothesis     Hypothesis? @relation(fields: [hypothesisId], references: [id])
   hypothesisText String?
-  Response       Response[]
 }
 
 model Response {
-  id           String      @id @default(uuid())
+  id           String   @id @default(uuid())
   content      String
-  created      DateTime    @default(now())
-  updated      DateTime    @updatedAt
+  created      DateTime @default(now())
+  updated      DateTime @updatedAt
   userId       String
-  user         User        @relation(fields: [userId], references: [id])
-  votes        Int         @default(0)
+  user         User     @relation(fields: [userId], references: [id])
+  votes        Int      @default(0)
   responseToId String?
   postId       String
   postType     String
-  Hypothesis   Hypothesis? @relation(fields: [postId], references: [id], onDelete: Cascade, map: "ResponseToHypothesis_FK")
-  Finding      Finding?    @relation(fields: [postId], references: [id], onDelete: Cascade, map: "ResponseToFinding_FK")
+  hypothesisId String?
 }
