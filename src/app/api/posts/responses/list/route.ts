@@ -4,6 +4,18 @@ import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 const getQueryParams = (query: URLSearchParams) => {
+  const postId = query.get("postId");
+  const postType = query.get("postType");
+
+  if (postId === null) {
+    throw new Error("Missing postId in search params");
+  }
+  if (postType === null) {
+    throw new Error("Missing postType in search params");
+  }
+  if (postType !== "hypothesis" && postType !== "finding") {
+    throw new Error("Missing postType in search params");
+  }
   let page = 1;
   let limit = 10;
   if (query.get("page") !== null) {
@@ -21,7 +33,8 @@ const getQueryParams = (query: URLSearchParams) => {
   return {
     page: Number(page),
     limit: Number(limit),
-    search: query.get("q") || undefined,
+    postId,
+    postType,
   };
 };
 
@@ -31,9 +44,31 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const searchParams = req.nextUrl.searchParams;
 
     // Validate page and limit using your preferred library (e.g., Zod, zod)
-    const { page, limit, search } = getQueryParams(searchParams);
+    const { postId, postType, page, limit } = getQueryParams(searchParams);
 
-    const hypotheses = await prisma.hypothesis.findMany({
+    // validate post
+    let post;
+    switch (postType) {
+      case "hypothesis":
+        post = await prisma.hypothesis.findUnique({
+          where: { id: postId },
+        });
+        break;
+      case "finding":
+        post = await prisma.hypothesis.findUnique({
+          where: { id: postId },
+        });
+        break;
+    }
+
+    if (!post) {
+      return new Response(`Could not find post with id ${postId}`, {
+        status: 400,
+      });
+    }
+
+    // todo add pagination
+    const responses = await prisma.response.findMany({
       skip: (page - 1) * limit, // Skip records for previous pages
       take: limit, // Limit the number of records returned
       orderBy: {
@@ -42,44 +77,30 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
       select: {
         id: true,
-        title: true,
         updated: true,
         created: true,
         userId: true,
-        description: true,
-        likes: true,
+        content: true,
+        votes: true,
         user: {
           select: {
             email: true,
+            id: true,
             name: true,
             created: true,
           },
         },
       },
-      where: search
-        ? {
-            OR: [
-              {
-                title: {
-                  contains: search,
-                },
-              },
-              {
-                description: { contains: search },
-              },
-            ],
-          }
-        : undefined,
+      where: { postId: post.id },
     });
 
-    const totalHypotheses = await prisma.hypothesis.count(); // Count total number
+    const totalResponses = responses.length; // Count total number
 
     return new Response(
       JSON.stringify({
-        hypotheses,
-        total: totalHypotheses,
-        nextPage:
-          page + 1 <= Math.ceil(totalHypotheses / limit) ? page + 1 : null, // Check if there's a next page
+        responses,
+        total: totalResponses,
+        nextPage: null, // TODO: Check if there's a next page
       }),
       { status: 200 }
     );

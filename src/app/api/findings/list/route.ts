@@ -36,7 +36,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
     // Validate page and limit using your preferred library (e.g., Zod, zod)
     const { page, limit, search } = getQueryParams(searchParams);
 
-    console.log("got page ", page, "got limit ", limit);
     const findings = await prisma.finding.findMany({
       skip: (page - 1) * limit, // Skip records for previous pages
       take: limit, // Limit the number of records returned
@@ -57,22 +56,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
             email: true,
             name: true,
             created: true,
-          },
-        },
-        // responses
-        Response: {
-          select: {
-            id: true,
-            content: true,
-            created: true,
-            updated: true,
-            userId: true,
-            user: {
-              select: {
-                name: true,
-                id: true,
-              },
-            },
           },
         },
       },
@@ -109,7 +92,5 @@ export async function GET(req: NextRequest, res: NextResponse) {
   } catch (error) {
     console.error("got error: ", error);
     return new Response("Internal server error", { status: 500 });
-
-    console.error(error);
   }
 }
