@@ -1,6 +1,6 @@
 ### Interlink Hub
 
-This project creates a place for academics and layment to come together and discuss the newest ideas and breakthroughs to help us understand how we can best use our understanding of the universe in our daily lives.
+This project creates a place for academics and non-academics to come together and discuss the newest breakthroughs and ideas to help us understand how to best utilise our understanding of the universe in our daily lives.
 
 #### Hypohtesis and Findings
 
