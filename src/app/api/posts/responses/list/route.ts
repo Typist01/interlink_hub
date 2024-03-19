@@ -40,13 +40,12 @@ const getQueryParams = (query: URLSearchParams) => {
 
 // Handler function
 export async function GET(req: NextRequest, res: NextResponse) {
+  const searchParams = req.nextUrl.searchParams;
   try {
-    const searchParams = req.nextUrl.searchParams;
-
-    // Validate page and limit using your preferred library (e.g., Zod, zod)
+    // Validate and get params
     const { postId, postType, page, limit } = getQueryParams(searchParams);
 
-    // validate post
+    // Validate concrete post
     let post;
     switch (postType) {
       case "hypothesis":
@@ -67,7 +66,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
       });
     }
 
-    // todo add pagination
     const responses = await prisma.response.findMany({
       skip: (page - 1) * limit, // Skip records for previous pages
       take: limit, // Limit the number of records returned

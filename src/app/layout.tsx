@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className + "flex flex-col"}>
         <Providers>
           <NavBar />
-          <div className="overflow-y-auto h-full h-[calc(100vh-60px)]">
+          <div className="overflow-y-auto h-[calc(100vh-60px)] flex flex-col justify-between">
             <div className="">{children}</div>
             <div className="h-[5vh]">
               <Footer />

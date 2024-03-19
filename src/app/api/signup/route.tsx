@@ -10,6 +10,14 @@ import { getJwtSecret } from "@/middleware";
 import { Resend } from "resend";
 import { Email } from "./email/Email";
 
+const getResendSecret = () => {
+  const secret = process.env.RESEND_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET is not defined");
+  }
+  return secret;
+};
+
 export async function POST(req: Request, res: Response) {
   if (req.method !== "POST") {
     return new Response("Method Not Allowed", { status: 405 });
@@ -52,14 +60,15 @@ export async function POST(req: Request, res: Response) {
     .setSubject(createdUser.id)
     .sign(new TextEncoder().encode(getJwtSecret()));
 
-  const resend = new Resend("re_Z8Yhjjy4_CJrWgZd9b8AovXLaEgT1qyAJ");
-
-  resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: "travellingtypist1@gmail.com",
-    subject: "Hello World",
-    react: <Email token={verificationToken} />,
-  });
+  if (process.env.NODE_ENV === "production") {
+    const resend = new Resend(getResendSecret());
+    resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "Hi! welcome to Interlink",
+      react: <Email token={verificationToken} />,
+    });
+  }
 
   // Login token
   const token = await new SignJWT({ id: createdUser.id, email: email })

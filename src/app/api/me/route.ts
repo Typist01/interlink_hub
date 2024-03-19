@@ -3,14 +3,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "../../../lib/prisma"; // Adjust the import path according to your project structure
 import jwt from "jsonwebtoken";
-
-export const getJwtSecret = () => {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error("JWT_SECRET is not defined");
-  }
-  return secret;
-};
+import { getJwtSecret } from "@/lib/getJwtSecret";
 
 export async function GET(req: NextRequest, res: Response) {
   // Extract the token from the Authorization header
