@@ -1,12 +1,9 @@
 // pages/api/auth/logout.ts
 
-import type { NextApiRequest, NextApiResponse } from "next";
-
 // POST /api/auth/logout
 
-export function POST(req: NextApiRequest, res: NextApiResponse) {
+export function POST() {
   // Set the token cookie to a past date, effectively expiring it
-
   return new Response("Logged out", {
     status: 200,
     headers: {

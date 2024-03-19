@@ -27,9 +27,8 @@ const getQueryParams = (query: URLSearchParams) => {
 
 // Handler function
 export async function GET(req: NextRequest, res: NextResponse) {
+  const searchParams = req.nextUrl.searchParams;
   try {
-    const searchParams = req.nextUrl.searchParams;
-
     // Validate page and limit using your preferred library (e.g., Zod, zod)
     const { page, limit, search } = getQueryParams(searchParams);
 
