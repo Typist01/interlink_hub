@@ -60,15 +60,13 @@ export async function POST(req: Request, res: Response) {
     .setSubject(createdUser.id)
     .sign(new TextEncoder().encode(getJwtSecret()));
 
-  if (process.env.NODE_ENV === "production") {
-    const resend = new Resend(getResendSecret());
-    resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: email,
-      subject: "Hi! welcome to Interlink",
-      react: <Email token={verificationToken} />,
-    });
-  }
+  const resend = new Resend(getResendSecret());
+  resend.emails.send({
+    from: "onboarding@resend.dev",
+    to: email,
+    subject: "Hi! welcome to Interlink",
+    react: <Email token={verificationToken} />,
+  });
 
   // Login token
   const token = await new SignJWT({ id: createdUser.id, email: email })

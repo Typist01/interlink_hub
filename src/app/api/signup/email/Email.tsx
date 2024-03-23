@@ -20,7 +20,7 @@ export const Email: FC<EmailProps> = ({ token }) => {
               <span className=""> started </span>
               with a{" "}
               <Button
-                href={`http://localhost:3000/signup/verify-user?token=${token}`}
+                href={`https://interlink-hub.vercel.app/signup/verify-user?token=${token}`}
                 className="inline-block rounded p-2 border border-teal-300 hover:bg-teal-800"
               >
                 quick verification
