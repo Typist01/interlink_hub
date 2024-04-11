@@ -10,6 +10,7 @@ interface pageProps {}
 const Page: FC<pageProps> = ({}) => {
   const router = useRouter();
   const { user } = useUserContext();
+  const [resent, setResent] = useState(false);
 
   if (user?.verified) {
     setTimeout(() => {
@@ -17,6 +18,21 @@ const Page: FC<pageProps> = ({}) => {
     }, 1000);
     return <Success message="You're verified!" />;
   }
+
+  if (user === null) {
+    setTimeout(() => {
+      router.push("/");
+    }, 1000);
+    return <Success message="You're verified!" />;
+  }
+
+  const handleResendClick = async () => {
+    const result = await fetch("/api/users/verify-account", { method: "POST" });
+    if (result.status === 200) {
+      setResent(true);
+    }
+    console.log(result);
+  };
 
   return (
     <div className="h-screen flex flex-col mt-[20vh] items-center text-center">
@@ -28,6 +44,20 @@ const Page: FC<pageProps> = ({}) => {
         Check your email for a verification link
         <br />
       </h3>
+      {resent ? (
+        <p>email sent!</p>
+      ) : (
+        <p className="text-teal-600 text-[1.2rem] font-semibold">
+          or
+          <button
+            onClick={() => handleResendClick()}
+            className="font-bold hover:text-teal-400"
+          >
+            &nbsp; click here&nbsp;
+          </button>
+          to resend
+        </p>
+      )}
     </div>
   );
 };

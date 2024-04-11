@@ -1,11 +1,13 @@
-import { Button, Tailwind } from "@react-email/components";
-import { FC } from "react";
-
 interface EmailProps {
   token: string;
 }
 
-export const Email: FC<EmailProps> = ({ token }) => {
+import * as React from "react";
+import { Tailwind, Button } from "@react-email/components";
+
+export function Email(props: EmailProps) {
+  const { token } = props;
+
   return (
     <Tailwind>
       <div className="text-3xl text-teal-300 p-[5vh] bg-black text-[1.7rem]">
@@ -40,4 +42,4 @@ export const Email: FC<EmailProps> = ({ token }) => {
       </div>
     </Tailwind>
   );
-};
+}
