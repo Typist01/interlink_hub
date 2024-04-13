@@ -3,12 +3,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { hash } from "bcryptjs";
 import { prisma } from "../../../lib/prisma"; // Adjust the import path according to your project structure
-import { NextRequest, NextResponse } from "next/server";
-import { randomUUID } from "crypto";
 import { SignJWT } from "jose";
 import { getJwtSecret } from "@/middleware";
-import { Resend } from "resend";
-import { Email } from "./email/Email";
+import { sendVerificationEmail } from "./sendVerificationLink";
 
 const getResendSecret = () => {
   const secret = process.env.RESEND_SECRET;
@@ -50,38 +47,34 @@ export async function POST(req: Request, res: Response) {
     },
   });
 
-  // Generate JWT for verification
-  const verificationToken = await new SignJWT({
-    id: createdUser.id,
-    email: email,
-  })
-    .setExpirationTime("2h")
-    .setProtectedHeader({ alg: "HS256" })
-    .setSubject(createdUser.id)
-    .sign(new TextEncoder().encode(getJwtSecret()));
+  try {
+    // Generate JWT for verification
+    const verificationToken = await new SignJWT({
+      id: createdUser.id,
+      email: email,
+    })
+      .setExpirationTime("2h")
+      .setProtectedHeader({ alg: "HS256" })
+      .setSubject(createdUser.id)
+      .sign(new TextEncoder().encode(getJwtSecret()));
+    sendVerificationEmail(email, verificationToken);
 
-  if (process.env.NODE_ENV === "production") {
-    const resend = new Resend(getResendSecret());
-    resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: email,
-      subject: "Hi! welcome to Interlink",
-      react: <Email token={verificationToken} />,
+    // Login token
+    const token = await new SignJWT({ id: createdUser.id, email: email })
+      .setExpirationTime("2h")
+      .setProtectedHeader({ alg: "HS256" })
+      .setSubject(createdUser.id)
+      .sign(new TextEncoder().encode(getJwtSecret()));
+
+    return new Response("User created", {
+      status: 201,
+      headers: {
+        "Content-Type": "application/json",
+        "Set-Cookie": `token=${token}; Path=/; HttpOnly; Secure`,
+      },
     });
+  } catch (e) {
+    console.log(e);
+    console.error(e);
   }
-
-  // Login token
-  const token = await new SignJWT({ id: createdUser.id, email: email })
-    .setExpirationTime("2h")
-    .setProtectedHeader({ alg: "HS256" })
-    .setSubject(createdUser.id)
-    .sign(new TextEncoder().encode(getJwtSecret()));
-
-  return new Response("User created", {
-    status: 201,
-    headers: {
-      "Content-Type": "application/json",
-      "Set-Cookie": `token=${token}; Path=/; HttpOnly; Secure`,
-    },
-  });
 }

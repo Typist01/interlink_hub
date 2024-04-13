@@ -35,6 +35,7 @@ export type UserModel = Omit<User, "password" | "created" | "updated"> & {
 
 export const UserProvider = ({ children }: UserPoroviderProps) => {
   const { getSession } = useUserSession();
+  // user === null means there is no active session
   const [user, setUser] = useState<UserModel | undefined | null>(undefined);
   const [refreshCounter, setRefreshCounter] = useState(0);
   const refreshUser = () => setRefreshCounter((c) => c + 1);
