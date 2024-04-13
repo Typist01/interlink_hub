@@ -38,9 +38,11 @@ const sendVerificationEmail = async (to: string, token: string) => {
     };
 
     const result = await transporter.sendMail(options);
+    console.log(result);
     return result;
   } catch (e) {
     console.error("could not send email in sendVerificationEmail");
+    console.error(e);
     throw new Error("could not send email: " + JSON.stringify(e));
   }
 };
