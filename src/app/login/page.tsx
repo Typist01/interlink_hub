@@ -70,7 +70,7 @@ const Page: FC<pageProps> = ({}) => {
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-[10vh]">
+    <div className="max-w-sm mx-auto mt-[20vh]">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
         {/* TODO: fix isLoading to turn off form handling during api call */}
         <div>

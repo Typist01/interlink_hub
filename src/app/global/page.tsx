@@ -79,7 +79,9 @@ const Page: FC<PageProps> = ({}) => {
             Oh, something went wrong... try refreshing the page.
           </div>
         )}
-        {!error && items.length === 0 && <h1>Oh, nothing to see here... </h1>}
+        {!error && items.length === 0 && (
+          <h1 className="mt-[3vh]">Oh, nothing to see here... </h1>
+        )}
         {items.map((item) => (
           <>
             {item.type === "hypothesis" && (
