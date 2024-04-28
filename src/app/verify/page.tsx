@@ -27,7 +27,7 @@ const Page: FC<pageProps> = ({}) => {
   }
 
   const handleResendClick = async () => {
-    const result = await fetch("/api/users/verify-account", { method: "POST" });
+    const result = await fetch("/api/signup/verify", { method: "POST" });
     if (result.status === 200) {
       setResent(true);
     }

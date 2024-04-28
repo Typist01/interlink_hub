@@ -2,7 +2,6 @@ import { getAuthenticatedUserId } from "@/lib/getAuthenticatedUserId";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { sendVerificationEmail } from "../sendVerificationLink";
-import { Email } from "../email/Email";
 import { getJwtSecret } from "@/lib/getJwtSecret";
 import { SignJWT } from "jose";
 
