@@ -1,6 +1,8 @@
 ### Interlink Hub
 
-This project creates a place for academics and non-academics to come together and discuss the newest breakthroughs and ideas to help us understand how to best utilise our understanding of the universe in our daily lives.
+This project creates a place for linking ideas and exploration.
+
+App live at https://interlink-hub.vercel.app/
 
 #### Hypohtesis and Findings
 
